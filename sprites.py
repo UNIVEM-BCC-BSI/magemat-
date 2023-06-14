@@ -290,7 +290,7 @@ class Sprite(pygame.sprite.Sprite):
             return True
 
     def collide_right(self):
-        if constant.APRENDIZ_POS >= constant.LARGURA-64:
+        if constant.APRENDIZ_POS >= constant.character_collide[self.fase]:
             return False
         else:
             return True
