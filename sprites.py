@@ -47,17 +47,17 @@ class Sprite(pygame.sprite.Sprite):
         self.sprites_idleB.append(pygame.transform.flip(pygame.image.load
                                                         ('sprites/1_IDLE_004.png'), True, False))
         #mago andando para frente
-        self.sprites_list.append(pygame.image.load('sprites/2_WALK_000.png'))
-        self.sprites_list.append(pygame.image.load('sprites/2_WALK_001.png'))
-        self.sprites_list.append(pygame.image.load('sprites/2_WALK_002.png'))
-        self.sprites_list.append(pygame.image.load('sprites/2_WALK_003.png'))
-        self.sprites_list.append(pygame.image.load('sprites/2_WALK_004.png'))
+        self.sprites_list.append(pygame.image.load('sprites/mage_walk_000.png'))
+        self.sprites_list.append(pygame.image.load('sprites/mage_walk_001.png'))
+        self.sprites_list.append(pygame.image.load('sprites/mage_walk_002.png'))
+        self.sprites_list.append(pygame.image.load('sprites/mage_walk_003.png'))
+        self.sprites_list.append(pygame.image.load('sprites/mage_walk_004.png'))
         #mago andando para tras
-        self.sprites_list_Back.append(pygame.image.load('sprites/2_WALKB_000.png'))
+        '''self.sprites_list_Back.append(pygame.image.load('sprites/2_WALKB_000.png'))
         self.sprites_list_Back.append(pygame.image.load('sprites/2_WALKB_001.png'))
         self.sprites_list_Back.append(pygame.image.load('sprites/2_WALKB_002.png'))
         self.sprites_list_Back.append(pygame.image.load('sprites/2_WALKB_003.png'))
-        self.sprites_list_Back.append(pygame.image.load('sprites/2_WALKB_004.png'))
+        self.sprites_list_Back.append(pygame.image.load('sprites/2_WALKB_004.png'))'''
 
         self.sprites_list_aprendiz.append(pygame.image.load('sprites/A2_WALK_000.png'))
         self.sprites_list_aprendiz.append(pygame.image.load('sprites/A2_WALK_001.png'))
@@ -169,13 +169,13 @@ class Sprite(pygame.sprite.Sprite):
         if call == 0:
             self.image = self.sprites_list[self.atual]
             self.rect = self.image.get_rect()
-            self.rect.topleft = (0, constant.character_posY[self.fase])
+            self.rect.topleft = (0, constant.mage_character_posY[self.fase])
             self.image = pygame.transform.scale(self.image,
                                                     (constant.character_size[self.fase], constant.character_size[self.fase]))
         elif call == 1:
             self.image = self.sprites_list_aprendiz[self.atual]
             self.rect = self.image.get_rect()
-            self.rect.topleft = (80, constant.character_posY[self.fase])
+            self.rect.topleft = (constant.distance[self.fase], constant.character_posY[self.fase])
             self.image = pygame.transform.scale(self.image,
                                                  (constant.character_size[self.fase], constant.character_size[self.fase]))
         elif call == 4:
@@ -204,7 +204,7 @@ class Sprite(pygame.sprite.Sprite):
                     self.image = pygame.transform.scale(self.image, (
                         constant.character_size[self.fase], constant.character_size[self.fase]))
                 else:
-                    if constant.PLAYER_ATUAL + 80 >= constant.APRENDIZ_POS:
+                    if constant.PLAYER_ATUAL + constant.distance[self.fase] >= constant.APRENDIZ_POS:
                         if self.atualM >= len(self.sprites_list):
                             self.atualM = 0
                         self.image = self.sprites_list[int(self.atualM)]
@@ -274,14 +274,14 @@ class Sprite(pygame.sprite.Sprite):
                     self.atualAM = 0
                 self.image = self.sprites_idle_aprendiz_mal[int(self.atualAM)]
                 self.image = pygame.transform.scale(self.image, (
-                    constant.character_size[self.fase]+100, constant.character_size[self.fase]+100))
+                    constant.character_size[self.fase]+75, constant.character_size[self.fase]+75))
             elif personagem == 5:
                 self.atualB += 0.4
                 if self.atualB >= len(self.sprites_idle_baltazar):
                     self.atualB = 0
                 self.image = self.sprites_idle_baltazar[int(self.atualB)]
                 self.image = pygame.transform.scale(self.image, (
-                    constant.character_size[self.fase] + 100, constant.character_size[self.fase] + 100))
+                    constant.character_size[self.fase] + 80, constant.character_size[self.fase] + 80))
 
     def collide_left(self):
         if constant.APRENDIZ_POS <= constant.PLAYER_POS_X:
@@ -299,7 +299,7 @@ class Sprite(pygame.sprite.Sprite):
         if d == 1:
             if self.collide_right():
                 constant.APRENDIZ_POS += constant.SPEED
-                if constant.PLAYER_ATUAL + 80 <= constant.APRENDIZ_POS:
+                if constant.PLAYER_ATUAL + constant.distance[self.fase] <= constant.APRENDIZ_POS:
                     constant.PLAYER_ATUAL+= constant.SPEED
                 self.atualizar(d, personagem)
                 if personagem == 0:
@@ -307,7 +307,7 @@ class Sprite(pygame.sprite.Sprite):
                     self.rect.topleft = (constant.APRENDIZ_POS, constant.character_posY[self.fase])
                 else:
                     self.rect = self.image.get_rect()
-                    self.rect.topleft = (constant.PLAYER_ATUAL, constant.character_posY[self.fase])
+                    self.rect.topleft = (constant.PLAYER_ATUAL, constant.mage_character_posY[self.fase])
 
         elif d == 2:
             if self.collide_left():
@@ -318,7 +318,7 @@ class Sprite(pygame.sprite.Sprite):
                     self.rect.topleft = (constant.APRENDIZ_POS, constant.character_posY[self.fase])
                 else:
                     self.rect = self.image.get_rect()
-                    self.rect.topleft = (constant.PLAYER_ATUAL, constant.character_posY[self.fase])
+                    self.rect.topleft = (constant.PLAYER_ATUAL, constant.mage_character_posY[self.fase])
 
         elif d == 0:
             self.atualizar(d, personagem)
@@ -327,16 +327,16 @@ class Sprite(pygame.sprite.Sprite):
                 self.rect.topleft = (constant.APRENDIZ_POS, constant.character_posY[self.fase])
             elif personagem == 1:
                 self.rect = self.image.get_rect()
-                self.rect.topleft = (constant.PLAYER_ATUAL, constant.character_posY[self.fase])
+                self.rect.topleft = (constant.PLAYER_ATUAL, constant.mage_character_posY[self.fase])
             elif personagem == 2:
                 self.rect = self.image.get_rect()
                 self.rect.topleft = (constant.LARGURA/2, constant.character_posY[self.fase]-85)
             elif personagem == 3:
                 self.rect = self.image.get_rect()
-                self.rect.topleft = (constant.LARGURA / 2 + 100, constant.character_posY[self.fase]-285)
+                self.rect.topleft = (constant.LARGURA / 2 + 100, constant.character_posY[self.fase] - 285)
             elif personagem == 4:
                 self.rect = self.image.get_rect()
-                self.rect.topleft = (constant.LARGURA / 2 + 200, constant.character_posY[self.fase]-300)
+                self.rect.topleft = (constant.LARGURA / 2 + 200, constant.character_posY[self.fase] - 210)
             elif personagem == 5:
                 self.rect = self.image.get_rect()
                 self.rect.topleft = (constant.LARGURA / 2 + 200, constant.character_posY[self.fase] - 210)
