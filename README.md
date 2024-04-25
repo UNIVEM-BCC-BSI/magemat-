@@ -1,3 +1,7 @@
-Clique no link abaixo para fazer o download do arquivo do jogo
+DOWNLOAD MAGEMAT
 
-https://www.mediafire.com/file/z1yvxshts9sjjcr/Jogar_MageMat.7z/file
+| Produto | Link |
+|---------|------|
+|MageMat  |[Download](https://www.mediafire.com/file/z1yvxshts9sjjcr/Jogar_MageMat.7z/file)|
+
+
